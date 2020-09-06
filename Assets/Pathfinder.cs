@@ -10,6 +10,9 @@ public class Pathfinder : MonoBehaviour
 
     [SerializeField] Block startPoint, endPoint;
 
+    Queue<Block> queue = new Queue<Block>;
+    bool isRunning = true;
+
     Vector2Int[] directions = {
         Vector2Int.up,
         Vector2Int.right,
@@ -21,7 +24,27 @@ public class Pathfinder : MonoBehaviour
     {
         LoadBlocks();
         ColorStartAndEnd();
-        ExploreNeighbours();
+        FindPath();
+    }
+
+    private void FindPath()
+    {
+        queue.Enqueue(startPoint);
+
+        while (queue.Count > 0)
+        {
+            var searchCenter = queue.Dequeue();
+            HaltIfEndFound(searchCenter);
+        }
+    }
+
+    private void HaltIfEndFound(Block searchCenter)
+    {
+        if (searchCenter == endPoint)
+        {
+            print("Found End");
+            isRunning = false;
+        }
     }
 
     private void ExploreNeighbours()
