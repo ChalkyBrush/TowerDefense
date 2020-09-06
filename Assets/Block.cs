@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    const int gridSize = 6;
+    Vector2Int gridPos;
+
+    public int GetGridSize()
     {
-        
+        return gridSize;
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector2Int GetGridPos()
     {
-        
+        return new Vector2Int(
+            Mathf.RoundToInt(transform.position.x / gridSize),
+            Mathf.RoundToInt(transform.position.z / gridSize)
+        );
+    }
+
+    public void SetTopColor(Color color)
+    {
+        MeshRenderer topMeshRenderer = transform.Find("Top").GetComponent<MeshRenderer>();
+        topMeshRenderer.material.color = color;
     }
 }

@@ -3,31 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
+[SelectionBase]
+[RequireComponent(typeof(Block))]
 public class EditorSnap : MonoBehaviour
 {
-    [Range(1f, 20f)][SerializeField] float gridSize = 6f;
+    Block waypoint;
 
-    TextMesh coordinatesTextMesh;
-
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        coordinatesTextMesh = GetComponentInChildren<TextMesh>();
+        waypoint = GetComponent<Block>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        GridSnap();
+        UpdateLabel();
+    }
 
-        Vector3 snapPos;
-        snapPos.x = Mathf.RoundToInt(Mathf.RoundToInt(transform.position.x / gridSize) * gridSize);
-        snapPos.y = 0;
-        snapPos.z = Mathf.RoundToInt(Mathf.RoundToInt(transform.position.z / gridSize) * gridSize);
+    private void GridSnap()
+    {
+        int gridSize = waypoint.GetGridSize();
+        transform.position = new Vector3(waypoint.GetGridPos().x * gridSize, 0f, waypoint.GetGridPos().y * gridSize);
+    }
 
-        string labelText = snapPos.x / gridSize + ", " + snapPos.z / gridSize;
+    private void UpdateLabel()
+    {
+        TextMesh coordinatesTextMesh = GetComponentInChildren<TextMesh>();
+        int gridSize = waypoint.GetGridSize();
+        Vector2Int gridPos = waypoint.GetGridPos();
+        string labelText = gridPos.x + ", " + gridPos.y;
         gameObject.name = labelText;
         coordinatesTextMesh.text = labelText;
-        transform.position = snapPos;
+        
     }
 }
