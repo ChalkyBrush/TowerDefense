@@ -19,15 +19,15 @@ public class EditorSnap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
 
         Vector3 snapPos;
         snapPos.x = Mathf.RoundToInt(Mathf.RoundToInt(transform.position.x / gridSize) * gridSize);
         snapPos.y = 0;
         snapPos.z = Mathf.RoundToInt(Mathf.RoundToInt(transform.position.z / gridSize) * gridSize);
 
-        coordinatesTextMesh.text = snapPos.x / gridSize + ", " + snapPos.z / gridSize;
+        string labelText = snapPos.x / gridSize + ", " + snapPos.z / gridSize;
+        gameObject.name = labelText;
+        coordinatesTextMesh.text = labelText;
         transform.position = snapPos;
     }
 }
