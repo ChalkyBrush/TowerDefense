@@ -22,14 +22,20 @@ public class Pathfinder : MonoBehaviour
         Vector2Int.left
     };
 
-    public List<Block> path = new List<Block>(); //TODO make private
+    List<Block> path = new List<Block>();
 
     void Start()
+    {
+
+    }
+
+    public List<Block> GetPath()
     {
         LoadBlocks();
         ColorStartAndEnd();
         BreadthFirstSearch();
         CreatePath();
+        return path;
     }
 
     private void CreatePath()
