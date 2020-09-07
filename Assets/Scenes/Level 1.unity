@@ -2190,7 +2190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsBetweenSpawns: 2
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 1077607508512619810, guid: 13855ac5f0256da4f92c95110dfa57b9,
+    type: 3}
 --- !u!4 &1381144339 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1460200993475408507, guid: 0d39a5030f1866449b1c51e473b20ec6,
