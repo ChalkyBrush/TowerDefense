@@ -6,13 +6,18 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] Transform objectToPan;
-    [SerializeField] Transform targetEnemy;
     [SerializeField] float attackRange = 40f;
     [SerializeField] ParticleSystem projectileParticle;
+
+
+    //STATE
+
+    Transform targetEnemy;
 
     // Update is called once per frame
     void Update()
     {
+        SetTargetEnemy();
         if (targetEnemy)
         {
             objectToPan.LookAt(targetEnemy);
@@ -24,16 +29,47 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private void FireAtEnemy()
+    private void SetTargetEnemy()
     {
-        float distanceToEnemy = Vector3.Distance(targetEnemy.transform.position, gameObject.transform.position);
-        if (distanceToEnemy <= attackRange)
+        var sceneEnemies = FindObjectsOfType<EnemyDamage>();
+        if (sceneEnemies.Length == 0) { return; }
+
+        Transform closestEnemy = sceneEnemies[0].transform;
+
+        foreach (EnemyDamage testEnemy in sceneEnemies)
         {
-            Shoot(true);
+            closestEnemy = GetClosest(closestEnemy, testEnemy.transform);
+        }
+        targetEnemy = closestEnemy;
+    }
+
+    private Transform GetClosest(Transform transformA, Transform transformB)
+    {
+        var distToA = Vector3.Distance(transform.position, transformA.position);
+        var distToB = Vector3.Distance(transform.position, transformB.position);
+        if (distToA < distToB)
+        {
+            return transformA;
         }
         else
         {
-            Shoot(false);
+            return transformB;
+        }
+    }
+
+    private void FireAtEnemy()
+    {
+        if (targetEnemy != null)
+        {
+            float distanceToEnemy = Vector3.Distance(targetEnemy.transform.position, gameObject.transform.position);
+            if (distanceToEnemy <= attackRange)
+            {
+                Shoot(true);
+            }
+            else
+            {
+                Shoot(false);
+            }
         }
     }
 
