@@ -31,10 +31,13 @@ public class Pathfinder : MonoBehaviour
 
     public List<Block> GetPath()
     {
-        LoadBlocks();
-        ColorStartAndEnd();
-        BreadthFirstSearch();
-        CreatePath();
+        if (path.Count == 0)
+        {
+            LoadBlocks();
+            ColorStartAndEnd();
+            BreadthFirstSearch();
+            CreatePath();
+        }
         return path;
     }
 
